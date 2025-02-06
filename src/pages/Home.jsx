@@ -1,5 +1,8 @@
 import MovieCard from '../components/MovieCard.jsx'
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
+import "../css/Home.css"
+import { searchMovies,getPopularMovies } from '../services/api.js';
+
 
 function Home(){
 
@@ -10,12 +13,26 @@ function Home(){
         setSearchQuery(e.target.value);
     }
 
-    const movies=[
-        {id:1, title:"Jhon Wick", release_date:"2020"},
-        {id:2, title:"Wild Robot", release_date:"2024"},
-        {id:3, title:"Finding Nemo", release_date:"2018"},
-        {id:4, title:"Krish", release_date:"2019"},
-    ];
+    const [movies, setMovies]=useState([]);
+    const [error,setError]=useState(null);
+    const [loading,setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadPopularMovies= async () => {
+            try{
+                const popularMovies = await getPopularMovies();
+                setMovies(popularMovies)
+            }
+            catch(err){
+                console.log(err);
+                setError("Failed to load")
+            }
+            finally{
+                setLoading(false)
+            }
+        }
+        loadPopularMovies();
+    },[])
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -37,7 +54,7 @@ function Home(){
                 ( movie.title.toLocaleLowerCase().startsWith(SearchQuery) &&
                 <MovieCard movie={movie} key={movie.id}></MovieCard> 
             ))}
-            
+
             </div>
         </div>
     );
