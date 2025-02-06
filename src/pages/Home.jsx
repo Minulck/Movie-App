@@ -33,10 +33,11 @@ function Home(){
 
             <div className="movies-grid">
 
-                {movies.map(movie =>( movie.title.toLocaleLowerCase().startsWith(SearchQuery) &&
+                {movies.map(movie =>
+                ( movie.title.toLocaleLowerCase().startsWith(SearchQuery) &&
                 <MovieCard movie={movie} key={movie.id}></MovieCard> 
-            
             ))}
+            
             </div>
         </div>
     );
