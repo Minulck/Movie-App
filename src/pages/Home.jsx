@@ -36,8 +36,7 @@ function Home(){
 
     const handleSearch = (e) => {
         e.preventDefault();
-        alert(SearchQuery);
-        setSearchQuery("");
+       if(!SearchQuery.trim()) return
     }
 
     return(
